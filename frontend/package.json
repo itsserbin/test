@@ -1,0 +1,27 @@
+{
+  "name": "nuxt-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.17",
+    "nuxt": "^3.9.3",
+    "nuxt-primevue": "^0.2.2",
+    "postcss": "^8.4.33",
+    "tailwindcss": "^3.4.1",
+    "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "@nuxtjs/auth-next": "5.0.0-1667386184.dfbbb54",
+    "@pinia/nuxt": "^0.5.1",
+    "pinia": "^2.1.7",
+    "primevue": "^3.46.0",
+    "vue": "^3.4.14"
+  }
+}
