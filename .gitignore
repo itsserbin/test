@@ -3,7 +3,7 @@
 .env.*
 !.env.example
 
-_docker/tmp
+.docker/tmp
 
 /.idea
 /.vscode

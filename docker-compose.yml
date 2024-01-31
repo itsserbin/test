@@ -4,13 +4,15 @@ services:
   app:
     build:
       context: .
-      dockerfile: _docker/php/Dockerfile
+      dockerfile: .docker/app/Dockerfile
     volumes:
       - type: bind
         source: ./backend
         target: /var/www/backend
     depends_on:
       - pgsql
+      - frontend
+      - redis
     networks:
       - app
     container_name: app
@@ -18,22 +20,20 @@ services:
   frontend:
     build:
       context: .
-      dockerfile: _docker/node/Dockerfile
+      dockerfile: .docker/frontend/Dockerfile
     ports:
       - "${APP_NODE_PORT:-3000}:3000"
     volumes:
-      - type: bind
-        source: ./frontend
-        target: /var/www/frontend
-      - type: bind
-        source: ./frontend/node_modules
-        target: /var/www/frontend/node_modules
+      - ./frontend:/var/www/frontend
+      - /var/www/frontend/node_modules
     networks:
       - app
     container_name: app_node
 
   nginx:
-    image: nginx:latest
+    build:
+      context: .
+      dockerfile: .docker/nginx/Dockerfile
     ports:
       - "${APP_NGINX_PORT:-80}:80"
     volumes:
@@ -41,7 +41,7 @@ services:
         source: ./backend
         target: /var/www/backend
       - type: bind
-        source: ./_docker/nginx/conf.d
+        source: ./.docker/nginx/conf.d
         target: /etc/nginx/conf.d
     depends_on:
       - app
@@ -50,7 +50,9 @@ services:
     container_name: app_nginx
 
   pgsql:
-    image: postgres:15
+    build:
+      context: .
+      dockerfile: .docker/postgres/Dockerfile
     restart: always
     ports:
       - "${APP_POSTGRES_PORT:-5432}:5432"
@@ -63,12 +65,14 @@ services:
       - app
     volumes:
       - type: bind
-        source: ./_docker/tmp/pgsql
-        target: /var/lib/postgresql
+        source: ./.docker/tmp/pgsql
+        target: /var/lib/postgresql/data
     container_name: app_pgsql
 
   mailpit:
-    image: axllent/mailpit:latest
+    build:
+      context: .
+      dockerfile: .docker/mailpit/Dockerfile
     ports:
       - '${APP_MAILPIT_PORT:-1025}:1025'
       - '${APP_MAILPIT_DASHBOARD_PORT:-8025}:8025'
@@ -77,13 +81,15 @@ services:
     container_name: app_mailpit
 
   redis:
-    image: redis:alpine
+    build:
+      context: .
+      dockerfile: .docker/redis/Dockerfile
     ports:
       - '${APP_REDIS_PORT:-6379}:6379'
     volumes:
       - type: bind
-        source: ./_docker/tmp/redis
-        target: /var/lib/redis
+        source: ./.docker/tmp/redis
+        target: /data
     networks:
       - app
     container_name: app_redis

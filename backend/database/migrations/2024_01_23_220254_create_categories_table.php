@@ -32,6 +32,8 @@ return new class extends Migration {
                 ->nullOnDelete();
 
             $table->timestamps();
+
+            $table->index(['created_at', 'updated_at']);
         });
     }
 

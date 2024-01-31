@@ -10,7 +10,15 @@ class MetaTag extends Model
     use HasFactory;
 
     protected $fillable = [
-        'seo',
-        'og',
+        'title',
+        'description',
+        'keywords',
+        'canonical',
+        'noindex',
+        'og_title',
+        'og_description',
+        'og_image',
+        'og_type',
+        'og_site_name',
     ];
 }

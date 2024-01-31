@@ -13,9 +13,11 @@ return new class extends Migration {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
 
-            $table->json('src')->default(json_encode([]));
-            $table->string('alt')->nullable();
-            $table->string('title')->nullable();
+            $table->string('filename', 255);
+            $table->string('path', 255);
+
+            $table->string('alt', 255)->nullable();
+            $table->string('title', 255)->nullable();
 
             $table->unsignedBigInteger('created_by')->nullable();
             $table->foreign('created_by')
@@ -30,6 +32,8 @@ return new class extends Migration {
                 ->nullOnDelete();
 
             $table->timestamps();
+
+            $table->index(['filename', 'path', 'created_at', 'updated_at']);
         });
     }
 

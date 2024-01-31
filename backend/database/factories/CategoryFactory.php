@@ -43,20 +43,16 @@ class CategoryFactory extends Factory
             ]);
 
             $category->meta()->create([
-                'seo' => json_encode([
-                    'title' => $this->faker->sentence,
-                    'description' => $this->faker->paragraph,
-                    'keywords' => null,
-                    'canonical' => null,
-                    'noindex' => false,
-                ]),
-                'og' => json_encode([
-                    'title' => $this->faker->sentence,
-                    'description' => $this->faker->paragraph,
-                    'image' => null,
-                    'type' => null,
-                    'site_name' => null,
-                ]),
+                'title' => $this->faker->sentence,
+                'description' => $this->faker->paragraph,
+                'keywords' => null,
+                'canonical' => null,
+                'noindex' => false,
+                'og_title' => $this->faker->sentence,
+                'og_description' => $this->faker->paragraph,
+                'og_image' => null,
+                'og_type' => null,
+                'og_site_name' => null,
             ]);
         });
     }

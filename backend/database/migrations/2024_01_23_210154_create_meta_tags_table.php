@@ -15,23 +15,21 @@ return new class extends Migration {
             $table->unsignedBigInteger('taggable_id');
             $table->string('taggable_type');
 
-            $table->json('seo')->default(json_encode([
-                'title' => null,
-                'description' => null,
-                'keywords' => null,
-                'canonical' => null,
-                'noindex' => false,
-            ]));
+            $table->string('title', 255)->nullable();
+            $table->text('description')->nullable();
+            $table->text('keywords')->nullable();
+            $table->text('canonical')->nullable();
+            $table->boolean('noindex')->default(false);
 
-            $table->json('og')->default(json_encode([
-                'title' => null,
-                'description' => null,
-                'image' => null,
-                'type' => null,
-                'site_name' => null,
-            ]));
+            $table->string('og_title', 255)->nullable();
+            $table->text('og_description')->nullable();
+            $table->text('og_image')->nullable();
+            $table->text('og_type')->nullable();
+            $table->text('og_site_name')->nullable();
 
             $table->timestamps();
+
+            $table->index(['taggable_id', 'taggable_type']);
         });
     }
 
